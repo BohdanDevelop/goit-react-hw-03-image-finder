@@ -24,8 +24,9 @@ class SearchingImages extends Component {
   };
   async componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.search !== this.state.search ||
-      prevState.page !== this.state.page
+      (prevState.search !== this.state.search ||
+        prevState.page !== this.state.page) &&
+      this.state.search
     ) {
       if (this.state.status !== 'successfully loaded') {
         this.setState({ status: 'loading' });
@@ -50,10 +51,15 @@ class SearchingImages extends Component {
     }
   }
   onSubmit = search => {
-    this.setState({
-      images: [],
-      search: search.trim(),
-    });
+    if (!search) {
+      this.setState({ status: 'idle' });
+    }
+    if (search !== this.state.search) {
+      this.setState({
+        images: [],
+        search: search.trim(),
+      });
+    }
   };
   onLoadMore = () => {
     const totalPages = Math.ceil(this.state.total / 12);
