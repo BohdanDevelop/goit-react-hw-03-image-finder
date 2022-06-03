@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const modalRoot = document.getElementById('modal-root');
 class Modal extends Component {
   escCloseModal = evt => {
-    this.props.closeModal();
+    if (evt.code === 'Escape') this.props.closeModal();
   };
   componentDidMount() {
     document.addEventListener('keydown', this.escCloseModal);
